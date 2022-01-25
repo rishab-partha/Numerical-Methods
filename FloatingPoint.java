@@ -90,11 +90,15 @@ public class FloatingPoint
         // -infinity (double) * infinity (double)
         System.out.println("-infinity (double) * infinity (double): " + NEG_INF*INF);
 
-        // -infinity (double) / -infinity (double)
-        System.out.println("-infinity (double) / -infinity (double): " + NEG_INF*NEG_INF + "\n");
+        // -infinity (double) * -infinity (double)
+        System.out.println("-infinity (double) * -infinity (double): " + NEG_INF*NEG_INF + "\n");
 
         // infinity (double) / infinity (double)
         System.out.println("infinity (double) / infinity (double): " + INF/INF);
+
+        double nanOne = INF/INF;
+        double nanTwo = 0.0 * INF;
+        System.out.println(nanOne == Double.NaN);
 
         // infinity (double) / -infinity (double)
         System.out.println("infinity (double) / -infinity (double): " + INF/NEG_INF);
