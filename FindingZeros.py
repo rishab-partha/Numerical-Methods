@@ -1,5 +1,4 @@
 import argparse
-from ast import And
 import math
 from cv2 import rectangle
 import matplotlib.pyplot as plt
@@ -210,26 +209,26 @@ class Bisection:
         maxIndex = np.argmax(self.funcVals[1])
         if self.funcVals[1][maxIndex] <= 0.0:
             if maxIndex == 0 or maxIndex == self.numPoints - 1:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
                 return
             if self.func.withinEps(self.funcVals[1][maxIndex], 0.0):
-                print("Zero near t = {}".format(self.funcVals[0][maxIndex]))
+                print("zero near t = {}".format(self.funcVals[0][maxIndex]))
             elif self.funcVals[1][maxIndex] > -1e-1:
                 print("Possible unconfirmed zero near t = {}".format(self.funcVals[0][maxIndex]))
             else:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
             return
 
         if self.funcVals[1][minIndex] >= 0.0:
             if minIndex == 0 or minIndex == self.numPoints - 1:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
                 return
             if self.func.withinEps(self.funcVals[1][minIndex], 0.0):
                 print("Zero near t = {}".format(self.funcVals[0][minIndex]))
             elif self.funcVals[1][minIndex] < 1e-1:
                 print("Possible unconfirmed zero near t = {}".format(self.funcVals[0][minIndex]))
             else:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
             return
 
         leftIndex = min(minIndex, maxIndex)
@@ -237,7 +236,7 @@ class Bisection:
         while (leftIndex + 1 < rightIndex):
             midIndex = (leftIndex + rightIndex)//2
             if (self.func.withinEps(self.funcVals[1][midIndex], 0.0)):
-                print("Zero near {}".format(self.funcVals[0][midIndex]))
+                print("zero near {}".format(self.funcVals[0][midIndex]))
                 return
             
             if np.sign(self.funcVals[1][leftIndex]) == np.sign(self.funcVals[1][midIndex]):
@@ -245,9 +244,9 @@ class Bisection:
             else:
                 rightIndex = midIndex
         
-        print("Zero between {} and {}".format(self.funcVals[0][leftIndex], 
+        print("zero between {} and {}".format(self.funcVals[0][leftIndex], 
             self.funcVals[0][rightIndex]))
-        # End of method findRoot
+            # End of method findRoot
     # End of class Bisection
 
 ''' # Class NewtonRaphson calculates one local zero of the function f(t) using the Newton-Raphson 
@@ -286,6 +285,7 @@ class NewtonRaphson:
         #
         # @param self       the instance of Bisection performing the computation
         # @param startPoint the t-coordinate at which to begin the Newton-Raphson method
+        # @param isMin      
         # @postcondition    the method has identified possible asymptotic zeroes, possible
         #                   unconfirmed zeroes, and a zero calculated from the Newton-Raphson 
         #                   method if possible
@@ -302,27 +302,27 @@ class NewtonRaphson:
         maxIndex = np.argmax(self.funcVals[1])
         if self.funcVals[1][maxIndex] <= 0.0:
             if maxIndex == 0 or maxIndex == self.numPoints - 1:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
                 return
             if self.func.withinEps(self.funcVals[1][maxIndex], 0.0):
                 print("Zero at t = {}".format(self.funcVals[0][maxIndex]))
             elif self.funcVals[1][maxIndex] > -1e-1:
                 print("Possible unconfirmed zero near t = {}".format(self.funcVals[0][maxIndex]))
             else:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
                 return
             
 
         if self.funcVals[1][minIndex] >= 0.0:
             if minIndex == 0 or minIndex == self.numPoints - 1:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
                 return
             if self.func.withinEps(self.funcVals[1][minIndex], 0.0):
                 print("Zero at t = {}".format(self.funcVals[0][minIndex]))
             elif self.funcVals[1][minIndex] < 1e-1:
                 print("Possible unconfirmed zero near t = {}".format(self.funcVals[0][minIndex]))
             else:
-                print("No (other) zeroes found.")
+                print("No (other) zeroes/min found.")
                 return
 
         curPoint = startPoint
@@ -332,19 +332,20 @@ class NewtonRaphson:
         while (not self.func.withinEps(curDeriv, 0.0)) and iters < 1000:
             curPoint = curPoint - curValue/curDeriv
             if curPoint < self.rangeL or curPoint > self.rangeR:
-                print("Newton-Raphson did not find root (out of bounds).")
+                print("Newton-Raphson did not find zero (out of bounds).")
                 return
             curValue = self.func.calcFuncVal(curPoint)
             curDeriv = self.func.calcDerivVal(curPoint)
             iters += 1
         if abs(curValue) > 1e-2:
-            print("Newton-Raphson did not find root.")
+            print("Newton-Raphson did not find zero.")
 
         else:
-            print("Root found around {}".format(curPoint))
+            print("zero found around {}".format(curPoint))
         return
         # End of method findRoot
     # End of class NewtonRaphson
+
 
 ''' # Method main tests and plots the bisection method and Newton-Raphson method, first plotting
     # f(t) and f'(t) and then calculating for a local root in the given range if possible.
