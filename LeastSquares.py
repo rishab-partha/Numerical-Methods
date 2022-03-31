@@ -1,4 +1,5 @@
 import argparse
+from pickle import NONE
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -7,6 +8,9 @@ FPS_STEPS = np.array([-2*STEP_SIZE, -1*STEP_SIZE, STEP_SIZE, 2*STEP_SIZE])
 FPS_2D = np.reshape(FPS_STEPS, (1, 4))
 FPS_WEIGHTS = np.array([1.0, -8.0, 8.0, -1.0])
 LAMBDA = None
+THRESHOLD = None
+MAX_ITERS = 100000
+ITERS_EPOCH = 1000
 
 def cubic(inputs, q):
     return q[0]*(inputs**3) + q[1]*(inputs**2) + q[2]*(inputs) + q[3]
