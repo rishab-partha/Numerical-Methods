@@ -2,7 +2,7 @@
     # approach with gradient descent. 
     #
     # @author Rishab Parthasarathy
-    # @version 03.31.2022
+    # @version 04.05.2022
     #'''
 
 import argparse
@@ -14,6 +14,34 @@ STEP_SIZE = 1e-7
 FPS_STEPS = np.array([-2*STEP_SIZE, -1*STEP_SIZE, STEP_SIZE, 2*STEP_SIZE])
 FPS_2D = np.reshape(FPS_STEPS, (1, 4))
 FPS_WEIGHTS = np.array([1.0, -8.0, 8.0, -1.0])
+
+''' # Method linear defines a linear function of the form 
+    #       f(x) = q_2 x + q_3.
+    #
+    # This method also processes a matrix of inputs and parameters, allowing
+    # multiple tests to be performed simultaneously.
+    # 
+    # @param inputs the matrix of input values to test
+    # @param q      the matrix of parameters to test
+    # @return       the matrix w/ values of f(x) for all sets of parameters/input
+    # '''
+def linear(inputs, q):
+    return q[2]*(inputs) + q[3]
+    # End of method linear
+
+''' # Method quadratic defines a quadratic function of the form 
+    #       f(x) = q_1 x^2 + q_2 x + q_3.
+    #
+    # This method also processes a matrix of inputs and parameters, allowing
+    # multiple tests to be performed simultaneously.
+    # 
+    # @param inputs the matrix of input values to test
+    # @param q      the matrix of parameters to test
+    # @return       the matrix w/ values of f(x) for all sets of parameters/input
+    # '''
+def quadratic(inputs, q):
+    return q[1]*(inputs**2) + q[2]*(inputs) + q[3]
+    # End of method quadratic
 
 ''' # Method cubic defines a cubic function of the form 
     #       f(x) = q_0 x^3 + q_1 x^2 + q_2 x + q_3.
@@ -182,8 +210,10 @@ def train(inp, out, q, func, lam = 1e-1, thres = 1e-2, maxIters = 100000, epochI
         print("Terminated at max # of iterations.")
     else:
         print("Stopped at threshold error:")
+    predGraph.set_ydata(func(funcArea, q))
     print("Epochs: {}".format(iters))
     print("Final error: {}".format(error))
+    print("Final parameters: {}".format(q))
     plt.ioff()
     plt.show()
     # End of method train
@@ -232,6 +262,10 @@ def main(config):
         train(inp, out, q, gaussian, lam, thres, numIters)
     elif (func == 'sine'):
         train(inp, out, q, sine, lam, thres, numIters)
+    elif (func == 'linear'):
+        train(inp, out, q, linear, lam, thres, numIters)
+    elif (func == 'quadratic'):
+        train(inp, out, q, quadratic, lam, thres, numIters)
     else:
         print("Function not recognized!")
     
