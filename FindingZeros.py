@@ -38,7 +38,7 @@ class CalcFunc:
         for i in range(self.numPoints):
             evalPoint = self.rangeL + i*intervalSize
             self.funcVals[0][i] = evalPoint
-            self.funcVals[1][i] = math.sqrt(abs(evalPoint))
+            self.funcVals[1][i] = math.sqrt(abs(evalPoint)) + 1
 
         self.derivVals = np.zeros((2, self.numPoints))
         self.derivVals[0][0] = self.rangeL

@@ -38,7 +38,7 @@ class CalcFunc:
         for i in range(self.numPoints):
             evalPoint = self.rangeL + i*intervalSize
             self.funcVals[0][i] = evalPoint
-            self.funcVals[1][i] = evalPoint*math.e**(evalPoint)
+            self.funcVals[1][i] = math.sqrt(abs(evalPoint))
 
         self.derivVals = np.zeros((2, self.numPoints))
         self.secDeriv = np.zeros((2, self.numPoints))
@@ -94,8 +94,8 @@ class CalcFunc:
         # @param n      the value of n to compare
         # @return       whether t is within epsilon of n
         #'''
-    def withinEps(self, t, n):
-        return t < n + max(n*1e-6,1e-6) and t > n- max(n*1e-6,1e-6)
+    def withinEps(self, t, n, epsilon = 1e-6):
+        return t < n + max(n*epsilon,epsilon) and t > n- max(n*epsilon,epsilon)
     
     ''' # Method calcDerivativeVals returns the values of the derivative (t, f'(t)) 
         # in the given range.
